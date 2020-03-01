@@ -1,0 +1,53 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+body {
+  background-image: url();
+}
+label {
+  margin-bottom: -0.5rem;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+input[readonly] {
+  background-color: white !important;
+}
+
+.btn-outline-dark {
+  color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-dark {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-dark:hover {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-dark:not(:disabled):not(.disabled):active,
+.btn-dark:not(:disabled):not(.disabled).active,
+.show > .btn-dark.dropdown-toggle {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-dark:focus,
+.btn-dark.focus {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 0rem rgba(82, 88, 93, 0.5);
+}
+
+.badge-success {
+  color: #fff;
+  background-color: teal;
+}

@@ -1,0 +1,242 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <img
+    width="40"
+    alt="Angular Logo"
+    src="https://images-eu.ssl-images-amazon.com/images/I/419dS8Oe4iL.png"
+  />
+  <h6>Payment Calculator</h6>
+</div>
+<br />
+<br />
+<br />
+<br />
+<div class="container" role="main">
+  <form (ngSubmit)="calculate()" [formGroup]="paymentForm">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="badge badge-light" for="sellingPrice"
+            >Selling Price</label
+          >
+          <input
+            formControlName="sellingPrice"
+            type="number"
+            class="form-control"
+            id="sellingPrice"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="downPayment"
+            >Down Payment</label
+          >
+          <input
+            formControlName="downPayment"
+            type="number"
+            class="form-control"
+            id="downPayment"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="tradeInValue"
+            >Trade-In Value</label
+          >
+          <input
+            formControlName="tradeInValue"
+            type="number"
+            class="form-control"
+            id="tradeInValue"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="tradeInOwing"
+            >Trade-In Owing</label
+          >
+          <input
+            formControlName="tradeInOwing"
+            type="number"
+            class="form-control"
+            id="tradeInOwing"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label
+            class="badge badge-light"
+            class="badge badge-light"
+            for="rebatesAndIncentives"
+            >Rebates & Incentives</label
+          >
+          <input
+            formControlName="rebatesAndIncentives"
+            type="number"
+            class="form-control"
+            id="rebatesAndIncentives"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="excludeTaxes"
+            >Exclude Taxes</label
+          >
+          <select
+            (change)="changeTaxExcluded($event)"
+            formControlName="excludeTaxes"
+            class="form-control"
+            id="excludeTaxes"
+          >
+            <option [value]="true">Yes</option>
+            <option [value]="false">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="badge badge-light" for="protectionProducts"
+            >Protection Products</label
+          >
+          <input
+            formControlName="protectionProducts"
+            type="number"
+            class="form-control"
+            id="protectionProducts"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="registrationFee"
+            >Registration Fee</label
+          >
+          <input
+            formControlName="registrationFee"
+            type="number"
+            class="form-control"
+            id="registrationFee"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" class="badge badge-light" for="apr"
+            >APR</label
+          >
+          <input
+            formControlName="apr"
+            type="number"
+            class="form-control"
+            id="apr"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" class="badge badge-light" for="term"
+            >Term</label
+          >
+          <input
+            formControlName="term"
+            type="number"
+            class="form-control"
+            id="term"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="frequency">Frequency</label>
+          <select
+            (change)="changeFrequency($event)"
+            formControlName="frequency"
+            class="form-control"
+            id="frequency"
+          >
+            <option *ngFor="let f of frequencies" [value]="f.days">{{
+              f.text
+            }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="taxPercentage">Province</label>
+          <select
+            (change)="changeProvince($event)"
+            formControlName="taxPercentage"
+            class="form-control"
+            id="taxPercentage"
+          >
+            <option *ngFor="let p of provinceAndTaxes" [value]="p.TotalTax">{{
+              p.ProvinceCode
+            }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">
+          Calculate
+        </button>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="badge badge-light" for="estimatedTradeInValue"
+            >Estimated Net Trade-In Value</label
+          >
+          <input
+            formControlName="estimatedTradeInValue"
+            type="number"
+            class="form-control "
+            id="estimatedTradeInValue"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="netSellingPrice"
+            >Net Selling Price</label
+          >
+          <input
+            formControlName="netSellingPrice"
+            type="number"
+            class="form-control "
+            id="netSellingPrice"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="taxes">Taxes</label>
+          <input
+            formControlName="taxes"
+            type="number"
+            class="form-control "
+            id="taxes"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="amountFinanced"
+            >Amount Financed</label
+          >
+          <input
+            formControlName="amountFinanced"
+            type="number"
+            class="form-control"
+            id="amountFinanced"
+            placeholder=""
+          />
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="badge badge-success" for="totalEstimatedPayment"
+            >Total Estimated Payment</label
+          >
+          <input
+            formControlName="totalEstimatedPayment"
+            type="number"
+            class="form-control "
+            id="totalEstimatedPayment"
+            placeholder=""
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- {{ paymentForm.value | json }}
+  <hr />
+  {{ paymentDetailsInitializer | json }} -->
+</div>
