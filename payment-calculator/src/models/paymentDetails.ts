@@ -1,8 +1,10 @@
 export class PaymentDetails {
   constructor(
+    public ProductId: number = 1,
     public SellingPrice: number = 27031.0,
     public DownPayment: number = 1000,
-    public RebateAndIncentive: number = 500.0,
+    public Incentives: number = 500.0,
+    public Rebates: number = 500.0,
     public TradeInValue: number = 15909.0,
     public TradeInOwing: number = 1000.0,
     public RegistrationFee: number = 71.0,
@@ -10,13 +12,16 @@ export class PaymentDetails {
     public Term: number = 84,
     public Frequency: number = 12,
     public ExcludeTaxes: boolean = false,
-    public TaxPercentage: number = 0.15
+    public TaxPercentage: number = 0.15,
+    public ResidualPercentage: number = 0.4
   ) {
     this.EstimatedTradeInValue = this.calculateTradeInValue();
 
     this.NetSellingPrice = this.calculateNetSellingPrice();
 
-    this.Taxes = this.calculatesTaxes();
+    this.ResidualValue = this.calculateResidualValue();
+
+    this.Taxes = this.calculateTaxes();
 
     this.AmountFinanced = this.calculateAmountFinanced();
 
@@ -28,6 +33,7 @@ export class PaymentDetails {
   public Taxes: number;
   public AmountFinanced: number;
   public TotalEstimatedPayment: string;
+  public ResidualValue: number;
 
   private calculateTradeInValue(): number {
     return this.TradeInValue - this.TradeInOwing;
@@ -37,17 +43,21 @@ export class PaymentDetails {
     return this.SellingPrice - this.DownPayment - this.EstimatedTradeInValue;
   }
 
-  private calculatesTaxes(): number {
+  private calculateTaxes(): number {
     if (this.ExcludeTaxes) return 0;
     else
       return Math.ceil(this.NetSellingPrice * this.TaxPercentage * 100) / 100;
+  }
+
+  private calculateResidualValue(): number {
+    return 11111;
   }
 
   private calculateAmountFinanced(): number {
     return (
       Math.ceil(
         (this.NetSellingPrice -
-          this.RebateAndIncentive +
+          this.Incentives +
           this.Taxes +
           this.RegistrationFee) *
           100

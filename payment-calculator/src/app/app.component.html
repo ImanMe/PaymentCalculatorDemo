@@ -16,6 +16,18 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
+          <label class="badge badge-light" for="productId">Product Type</label>
+          <select
+            (change)="changeProductType($event)"
+            formControlName="productId"
+            class="form-control"
+            id="productId"
+          >
+            <option [value]="1">Lease</option>
+            <option [value]="2">Loan</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label class="badge badge-light" for="sellingPrice"
             >Selling Price</label
           >
@@ -63,21 +75,7 @@
             placeholder=""
           />
         </div>
-        <div class="form-group">
-          <label
-            class="badge badge-light"
-            class="badge badge-light"
-            for="rebatesAndIncentives"
-            >Rebates & Incentives</label
-          >
-          <input
-            formControlName="rebatesAndIncentives"
-            type="number"
-            class="form-control"
-            id="rebatesAndIncentives"
-            placeholder=""
-          />
-        </div>
+
         <div class="form-group">
           <label class="badge badge-light" for="excludeTaxes"
             >Exclude Taxes</label
@@ -91,6 +89,36 @@
             <option [value]="true">Yes</option>
             <option [value]="false">No</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label
+            class="badge badge-light"
+            class="badge badge-light"
+            for="incentives"
+            >Incentives</label
+          >
+          <input
+            formControlName="incentives"
+            type="number"
+            class="form-control"
+            id="incentives"
+            placeholder=""
+          />
+        </div>
+        <div class="form-group">
+          <label
+            class="badge badge-light"
+            class="badge badge-light"
+            for="rebates"
+            >Rebates</label
+          >
+          <input
+            formControlName="rebates"
+            type="number"
+            class="form-control"
+            id="rebates"
+            placeholder=""
+          />
         </div>
       </div>
       <div class="col-sm-3">
@@ -168,6 +196,21 @@
             }}</option>
           </select>
         </div>
+        <div class="form-group">
+          <label
+            class="badge badge-light"
+            class="badge badge-light"
+            for="residualPercentage"
+            >Residual Percentage</label
+          >
+          <input
+            formControlName="residualPercentage"
+            type="number"
+            class="form-control"
+            id="residualPercentage"
+            placeholder=""
+          />
+        </div>
         <button type="submit" class="btn btn-dark btn-block">
           Calculate
         </button>
@@ -219,6 +262,18 @@
             placeholder=""
           />
         </div>
+        <div class="form-group">
+          <label class="badge badge-light" for="residualValue"
+            >Residual Value</label
+          >
+          <input
+            formControlName="residualValue"
+            type="number"
+            class="form-control"
+            id="residualValue"
+            placeholder=""
+          />
+        </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
@@ -236,7 +291,7 @@
       </div>
     </div>
   </form>
-  <!-- {{ paymentForm.value | json }}
+  {{ paymentForm.value | json }}
   <hr />
-  {{ paymentDetailsInitializer | json }} -->
+  {{ paymentDetailsInitializer | json }}
 </div>

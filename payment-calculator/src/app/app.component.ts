@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
 
   isTaxExcluded: boolean = false;
 
+  productType: number = 1;
+
   taxPercentage: number;
 
   frequency: number;
@@ -44,11 +46,14 @@ export class AppComponent implements OnInit {
 
   buildForm = () => {
     this.paymentForm = this.fb.group({
+      productId: this.paymentDetailsInitializer.ProductId,
       sellingPrice: this.paymentDetailsInitializer.SellingPrice,
       downPayment: this.paymentDetailsInitializer.DownPayment,
       tradeInValue: this.paymentDetailsInitializer.TradeInValue,
       tradeInOwing: this.paymentDetailsInitializer.TradeInOwing,
-      rebatesAndIncentives: this.paymentDetailsInitializer.RebateAndIncentive,
+      incentives: this.paymentDetailsInitializer.Incentives,
+      residualPercentage: this.paymentDetailsInitializer.ResidualPercentage,
+      rebates: this.paymentDetailsInitializer.Rebates,
       amountFinanced: {
         value: this.paymentDetailsInitializer.AmountFinanced,
         disabled: true
@@ -56,6 +61,10 @@ export class AppComponent implements OnInit {
       registrationFee: this.paymentDetailsInitializer.RegistrationFee,
       apr: this.paymentDetailsInitializer.APR,
       term: this.paymentDetailsInitializer.Term,
+      residualValue: {
+        value: this.paymentDetailsInitializer.ResidualValue,
+        disabled: true
+      },
       estimatedTradeInValue: {
         value: this.paymentDetailsInitializer.EstimatedTradeInValue,
         disabled: true
@@ -76,6 +85,11 @@ export class AppComponent implements OnInit {
     });
   };
 
+  changeProductType = event => {
+    if (event.target.value === "1") this.productType = 1;
+    else this.productType = 2;
+  };
+
   changeTaxExcluded = event => {
     if (event.target.value === "true") this.isTaxExcluded = true;
     else this.isTaxExcluded = false;
@@ -88,9 +102,11 @@ export class AppComponent implements OnInit {
   buildUpdatedPaymentDetails = () => {
     this.paymentDetailsInitializer = null;
     this.paymentDetailsInitializer = new PaymentDetails(
+      this.productType,
       this.paymentForm.get("sellingPrice").value,
       this.paymentForm.get("downPayment").value,
-      this.paymentForm.get("rebatesAndIncentives").value,
+      this.paymentForm.get("incentives").value,
+      this.paymentForm.get("rebates").value,
       this.paymentForm.get("tradeInValue").value,
       this.paymentForm.get("tradeInOwing").value,
       this.paymentForm.get("registrationFee").value,
@@ -98,7 +114,8 @@ export class AppComponent implements OnInit {
       this.paymentForm.get("term").value,
       this.frequency,
       this.isTaxExcluded,
-      this.taxPercentage
+      this.taxPercentage,
+      this.paymentForm.get("residualPercentage").value
     );
   };
 
@@ -106,6 +123,7 @@ export class AppComponent implements OnInit {
     this.paymentForm.patchValue({
       estimatedTradeInValue: this.paymentDetailsInitializer
         .EstimatedTradeInValue,
+      residualValue: this.paymentDetailsInitializer.ResidualValue,
       amountFinanced: this.paymentDetailsInitializer.AmountFinanced,
       netSellingPrice: this.paymentDetailsInitializer.NetSellingPrice,
       taxes: this.paymentDetailsInitializer.Taxes,
