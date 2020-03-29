@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   buildForm = () => {
     this.paymentForm = this.fb.group({
       productId: this.paymentDetailsInitializer.ProductId,
+      msrp: this.paymentDetailsInitializer.MSRP,
       sellingPrice: this.paymentDetailsInitializer.SellingPrice,
       downPayment: this.paymentDetailsInitializer.DownPayment,
       tradeInValue: this.paymentDetailsInitializer.TradeInValue,
@@ -103,6 +104,7 @@ export class AppComponent implements OnInit {
     this.paymentDetailsInitializer = null;
     this.paymentDetailsInitializer = new PaymentDetails(
       this.productType,
+      this.paymentForm.get("msrp").value,
       this.paymentForm.get("sellingPrice").value,
       this.paymentForm.get("downPayment").value,
       this.paymentForm.get("incentives").value,

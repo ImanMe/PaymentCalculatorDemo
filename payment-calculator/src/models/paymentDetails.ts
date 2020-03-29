@@ -1,6 +1,7 @@
 export class PaymentDetails {
   constructor(
     public ProductId: number = 1,
+    public MSRP: number = 18000.0,
     public SellingPrice: number = 27031.0,
     public DownPayment: number = 1000,
     public Incentives: number = 500.0,
@@ -50,7 +51,7 @@ export class PaymentDetails {
   }
 
   private calculateResidualValue(): number {
-    return 11111;
+    return this.MSRP * this.ResidualPercentage;
   }
 
   private calculateAmountFinanced(): number {
