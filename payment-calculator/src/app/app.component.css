@@ -117,3 +117,7 @@ svg.material-icons:not(:last-child) {
 .card-container .card:not(.highlight-card):hover .material-icons path {
   fill: rgb(105, 103, 103);
 }
+
+.badge {
+  font-size: 85%;
+}

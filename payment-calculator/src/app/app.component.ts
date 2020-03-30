@@ -55,6 +55,7 @@ export class AppComponent implements OnInit {
       incentives: this.paymentDetailsInitializer.Incentives,
       residualPercentage: this.paymentDetailsInitializer.ResidualPercentage,
       rebates: this.paymentDetailsInitializer.Rebates,
+      otherFees: this.paymentDetailsInitializer.OtherFees,
       amountFinanced: {
         value: this.paymentDetailsInitializer.AmountFinanced,
         disabled: true
@@ -79,10 +80,18 @@ export class AppComponent implements OnInit {
         value: this.paymentDetailsInitializer.TotalEstimatedPayment,
         disabled: true
       },
+      financeAmountWithoutLien: {
+        value: this.paymentDetailsInitializer.FinanceAmountWithoutLien,
+        disabled: true
+      },
+      paymentWithoutLien: {
+        value: this.paymentDetailsInitializer.PaymentWhithoutLien,
+        disabled: true
+      },
       frequency: this.frequencies[0].days,
       excludeTaxes: this.paymentDetailsInitializer.ExcludeTaxes,
       taxPercentage: this.provinceAndTaxes[0].TotalTax,
-      protectionProducts: 0
+      protectionProducts: this.paymentDetailsInitializer.ProtectionProducts
     });
   };
 
@@ -106,6 +115,7 @@ export class AppComponent implements OnInit {
       this.productType,
       this.paymentForm.get("msrp").value,
       this.paymentForm.get("sellingPrice").value,
+      this.paymentForm.get("protectionProducts").value,
       this.paymentForm.get("downPayment").value,
       this.paymentForm.get("incentives").value,
       this.paymentForm.get("rebates").value,
@@ -117,7 +127,8 @@ export class AppComponent implements OnInit {
       this.frequency,
       this.isTaxExcluded,
       this.taxPercentage,
-      this.paymentForm.get("residualPercentage").value
+      this.paymentForm.get("residualPercentage").value,
+      this.paymentForm.get("otherFees").value
     );
   };
 
@@ -130,7 +141,10 @@ export class AppComponent implements OnInit {
       netSellingPrice: this.paymentDetailsInitializer.NetSellingPrice,
       taxes: this.paymentDetailsInitializer.Taxes,
       totalEstimatedPayment: this.paymentDetailsInitializer
-        .TotalEstimatedPayment
+        .TotalEstimatedPayment,
+      financeAmountWithoutLien: this.paymentDetailsInitializer
+        .FinanceAmountWithoutLien,
+      paymentWithoutLien: this.paymentDetailsInitializer.PaymentWhithoutLien
     });
   };
 }
