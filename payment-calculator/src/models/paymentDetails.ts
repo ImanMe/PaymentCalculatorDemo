@@ -10,12 +10,12 @@ export class PaymentDetails {
     public TradeInValue: number = 5000.0,
     public TradeInOwing: number = 500.0,
     public RegistrationFee: number = 500.0,
-    public APR: number = 0.0399,
+    public APR: number = 4.5,
     public Term: number = 36,
     public Frequency: number = 12,
     public ExcludeTaxes: boolean = false,
     public TaxPercentage: number = 0.15,
-    public ResidualPercentage: number = 0.6,
+    public ResidualPercentage: number = 60,
     public OtherFees: number = 1000
   ) {
     this.EstimatedTradeInValue = this.calculateTradeInValue();
@@ -75,7 +75,7 @@ export class PaymentDetails {
   }
 
   private calculateResidualValue(): number {
-    return this.MSRP * this.ResidualPercentage;
+    return this.MSRP * (this.ResidualPercentage / 100);
   }
 
   private calculateAmountFinanced(): number {
@@ -97,7 +97,7 @@ export class PaymentDetails {
   }
 
   private calculatePMTForLoan() {
-    let rate = this.APR / 12;
+    let rate = this.APR / 100 / 12;
     let type = 0;
 
     let pmt =
@@ -113,7 +113,7 @@ export class PaymentDetails {
   }
 
   private calculatePMTForLease() {
-    let rate = this.APR / 12;
+    let rate = this.APR / 100 / 12;
     let type = 1;
 
     let pmt =
@@ -133,7 +133,7 @@ export class PaymentDetails {
   }
 
   private CalculatePaymentWithoutLien(): number {
-    let rate = this.APR / 12;
+    let rate = this.APR / 100 / 12;
     let type = 1;
 
     let pmt =
