@@ -107,15 +107,22 @@ export class PaymentDetails {
   }
 
   private calculatePMTForLease() {
-    let rate = this.APR / this.Frequency;
+    let rate = this.APR / 12;
+    let type = 1;
 
-    let result =
-      (rate / (Math.pow(1 + rate, this.Term) - 1)) *
-      (this.AmountFinanced * Math.pow(1 + rate, this.Term) -
-        this.ResidualValue);
+    let pmt =
+      -(
+        rate *
+        (this.ResidualValue * -1 +
+          this.AmountFinanced * Math.pow(1 + rate, this.Term))
+      ) /
+      ((1 + rate * type) * (1 - Math.pow(1 + rate, this.Term)));
 
-    let periodicalPayment = (Math.ceil(result * 100) / 100).toFixed(2);
+    if (this.Frequency === 24) pmt = pmt / 2;
+    if (this.Frequency === 26) pmt = pmt / 2.166;
+    if (this.Frequency === 52) pmt = pmt / 4.333;
 
+    let periodicalPayment = (Math.ceil(pmt * 100) / 100).toFixed(2);
     return periodicalPayment;
   }
 
