@@ -2,21 +2,21 @@ export class PaymentDetails {
   constructor(
     public ProductId: number = 1,
     public MSRP: number = 18000.0,
-    public SellingPrice: number = 20000.0,
+    public SellingPrice: number = 36000.0,
     public ProtectionProducts: number = 0,
-    public DownPayment: number = 0,
-    public Incentives: number = 0.0,
-    public Rebates: number = 0.0,
-    public TradeInValue: number = 2000.0,
-    public TradeInOwing: number = 1000.0,
-    public RegistrationFee: number = 0.0,
+    public DownPayment: number = 2000,
+    public Incentives: number = 2000.0,
+    public Rebates: number = 1000.0,
+    public TradeInValue: number = 5000.0,
+    public TradeInOwing: number = 500.0,
+    public RegistrationFee: number = 500.0,
     public APR: number = 0.0399,
     public Term: number = 36,
     public Frequency: number = 12,
     public ExcludeTaxes: boolean = false,
     public TaxPercentage: number = 0.15,
-    public ResidualPercentage: number = 0.4,
-    public OtherFees: number = 0
+    public ResidualPercentage: number = 0.6,
+    public OtherFees: number = 1000
   ) {
     this.EstimatedTradeInValue = this.calculateTradeInValue();
 
@@ -66,10 +66,12 @@ export class PaymentDetails {
     if (this.ExcludeTaxes) return 0;
     if (this.ProductId === 2)
       return Math.ceil(this.NetSellingPrice * this.TaxPercentage * 100) / 100;
-    else
-      return (
-        Math.ceil(this.PaymentWhithoutLien * this.TaxPercentage * 100) / 100
+    else {
+      console.log(this.PaymentWhithoutLien);
+      return Math.ceil(
+        (this.PaymentWhithoutLien * this.TaxPercentage * 100) / 100
       );
+    }
   }
 
   private calculateResidualValue(): number {
@@ -95,14 +97,18 @@ export class PaymentDetails {
   }
 
   private calculatePMTForLoan() {
-    let rate = this.APR / this.Frequency;
+    let rate = this.APR / 12;
+    let type = 0;
 
-    let result =
+    let pmt =
       (rate / (Math.pow(1 + rate, this.Term) - 1)) *
       (this.AmountFinanced * Math.pow(1 + rate, this.Term) - 0);
 
-    let periodicalPayment = (Math.ceil(result * 100) / 100).toFixed(2);
+    if (this.Frequency === 24) pmt = pmt / 2;
+    if (this.Frequency === 26) pmt = pmt / 2.166;
+    if (this.Frequency === 52) pmt = pmt / 4.333;
 
+    let periodicalPayment = (Math.ceil(pmt * 100) / 100).toFixed(2);
     return periodicalPayment;
   }
 
@@ -127,15 +133,22 @@ export class PaymentDetails {
   }
 
   private CalculatePaymentWithoutLien(): number {
-    let rate = this.APR / this.Frequency;
+    let rate = this.APR / 12;
+    let type = 1;
 
-    let result =
-      (rate / (Math.pow(1 + rate, this.Term) - 1)) *
-      (this.FinanceAmountWithoutLien * Math.pow(1 + rate, this.Term) -
-        this.ResidualValue);
+    let pmt =
+      -(
+        rate *
+        (this.ResidualValue * -1 +
+          this.FinanceAmountWithoutLien * Math.pow(1 + rate, this.Term))
+      ) /
+      ((1 + rate * type) * (1 - Math.pow(1 + rate, this.Term)));
 
-    let periodicalPayment = Math.ceil(result * 100) / 100;
+    if (this.Frequency === 24) pmt = pmt / 2;
+    if (this.Frequency === 26) pmt = pmt / 2.166;
+    if (this.Frequency === 52) pmt = pmt / 4.333;
 
+    let periodicalPayment = Math.ceil(pmt * 100) / 100;
     return periodicalPayment;
   }
 
